@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Optional, List, Dict, Any
 from datetime import datetime
@@ -15,7 +16,7 @@ router = APIRouter(
 # -------------------------------------------------------
 # 1. Database Connection
 # -------------------------------------------------------
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)

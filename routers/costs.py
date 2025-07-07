@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, HTTPException, Depends, Query
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field, validator
@@ -15,7 +16,7 @@ import calendar
 
 
 # Database connection
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)

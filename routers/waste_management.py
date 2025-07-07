@@ -1,17 +1,18 @@
+import os
 from fastapi import APIRouter, HTTPException, Depends, Query
 from pydantic import BaseModel
 from datetime import datetime, date, timedelta
 from typing import List, Optional
 import asyncpg
 
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)
 from routers.employees import admin_only, admin_or_manager, TokenData
 
 router = APIRouter(prefix="/api/waste-management", tags=["Waste Management"])
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Updated Models
 class WasteData(BaseModel):

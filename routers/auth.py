@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, HTTPException, Depends, Header
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
@@ -11,7 +12,7 @@ from typing import Optional
 router = APIRouter(tags=["auth"])
 
 # Database Connection
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # JWT Configuration
 SECRET_KEY = "your_secret_key_here"  # Change this to a secure random key in production

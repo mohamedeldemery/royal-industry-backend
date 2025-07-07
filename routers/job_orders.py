@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel, field_validator, model_validator
 from typing import List, Optional, Dict, Any
@@ -16,7 +17,7 @@ router = APIRouter(tags=["job_orders"])
 # -------------------------------------------------------
 # 1. Database Connection
 # -------------------------------------------------------
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)

@@ -1,10 +1,11 @@
+import os
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel, Field, field_validator, model_validator
 from typing import Optional, Dict, List
 from datetime import datetime
 import asyncpg
 
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)
@@ -14,7 +15,7 @@ from routers.employees import admin_or_manager, TokenData
 
 import asyncpg  # or wherever connect_to_db is defined
 
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)

@@ -1,3 +1,4 @@
+import os
 # backend/routers/analytics.py
 from fastapi import APIRouter, HTTPException, Depends
 import asyncpg
@@ -8,7 +9,7 @@ from pydantic import BaseModel
 # your old auth guard
 from routers.employees import admin_or_manager, TokenData
 
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)
