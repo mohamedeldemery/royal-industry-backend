@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List
@@ -7,7 +8,7 @@ from datetime import datetime
 from routers.employees import admin_or_manager, TokenData
 
 router = APIRouter(tags=["active_orders"])
-DATABASE_URL = "postgresql://postgres:123@localhost:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)
