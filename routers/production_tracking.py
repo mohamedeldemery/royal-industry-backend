@@ -11,7 +11,7 @@ from routers.employees import admin_or_manager, TokenData
 
 router = APIRouter(tags=["production‑tracking"])
 
-DB_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DB_URL = "postgresql://postgres:tGMQdkuBjfHViJgVAPzbodCTFZHrvtEJ@postgres.railway.internal:5432/railway"
 
 # ──────────────────────────────────────────────────────────
 # 1. ENUMS AND DOMAIN MODEL (MUST BE FIRST)
