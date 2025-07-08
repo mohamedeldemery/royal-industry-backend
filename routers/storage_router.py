@@ -177,7 +177,48 @@ async def register_manual_storage(storage: ManualStorageRegistration, token: Tok
     
     finally:
         await conn.close()
-
+        
+@router.get("/manual/inventory", response_model=List[ManualStorageItem], dependencies=[Depends(admin_or_manager)])
+async def get_manual_storage_inventory(status: Optional[str] = None, token: TokenData = Depends(admin_or_manager)):
+    """
+    Get all manually entered items in storage, optionally filtered by status
+    """
+    conn = await connect_to_db()
+    
+    try:
+        if status:
+            items = await conn.fetch(
+                """
+                SELECT id, order_id, client_name, product, model, order_quantity, size_specs,
+                       status, storage_date, shipping_date, stored_by, shipped_by, notes,
+                       is_manual_entry, manual_weight_g, manual_length_cm, manual_width_cm,
+                       manual_micron_mm, manual_gusset1_cm, manual_gusset2_cm, manual_flap_cm,
+                       manual_unit_weight_g
+                FROM storage_management
+                WHERE is_manual_entry = TRUE AND status = $1
+                ORDER BY storage_date DESC
+                """,
+                status
+            )
+        else:
+            items = await conn.fetch(
+                """
+                SELECT id, order_id, client_name, product, model, order_quantity, size_specs,
+                       status, storage_date, shipping_date, stored_by, shipped_by, notes,
+                       is_manual_entry, manual_weight_g, manual_length_cm, manual_width_cm,
+                       manual_micron_mm, manual_gusset1_cm, manual_gusset2_cm, manual_flap_cm,
+                       manual_unit_weight_g
+                FROM storage_management
+                WHERE is_manual_entry = TRUE
+                ORDER BY storage_date DESC
+                """
+            )
+        
+        return [ManualStorageItem(**dict(item)) for item in items]
+    
+    finally:
+        await conn.close()
+        
 @router.post("/manual/ship", response_model=ManualStorageItem, dependencies=[Depends(admin_or_manager)])
 async def ship_manual_order(shipping: ManualShipOrder, token: TokenData = Depends(admin_or_manager)):
     """
