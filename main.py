@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi import security
 from fastapi.middleware.cors import CORSMiddleware
 import asyncpg
+import os
 from typing import Optional
 
 # Import routers
@@ -26,7 +27,7 @@ async def get_token_header(credentials: HTTPAuthorizationCredentials = Depends(s
         )
 
 # Database connection
-DATABASE_URL = "postgresql://postgres:123@192.168.1.200:5432/Royal Industry"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 async def connect_to_db():
     return await asyncpg.connect(DATABASE_URL)
